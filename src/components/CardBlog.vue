@@ -13,7 +13,10 @@
           <p class="card-text m-0">Дата: </p>
           <p class="card-text m-0">Создатель: </p>
         </div>
-        <a href="#" class="btn btn-primary">Подробнее...</a>
+        <div class="d-flex align-items-center justify-content-between">
+          <a href="#" class="btn btn-primary">Подробнее...</a>
+          <button type="button" class="btn btn-danger">Удалить</button>
+        </div>
       </div>
     </div>
 </template>
