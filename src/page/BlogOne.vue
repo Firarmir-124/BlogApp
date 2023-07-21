@@ -31,7 +31,7 @@ export default {
         </div>
         <div class="btn-group mt-3" role="group" aria-label="Basic outlined example">
           <button @click="remove" type="button" class="btn btn-outline-primary">Удалить</button>
-          <button type="button" class="btn btn-outline-primary">Редактировать</button>
+          <RouterLink class="btn btn-outline-primary" to="/edit-blog/1">Редактировать</RouterLink>
         </div>
       </div>
     </div>
