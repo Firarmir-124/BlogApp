@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <a class="btn btn-secondary my-3" role="button">Назад</a>
+  <RouterLink class="btn btn-secondary my-3" to="/">Назад</RouterLink>
   <div class="card" style="width: 100%">
-    <img src="./assets/image/blogImage.png" class="card-img-top" alt="...">
+    <img src="../assets/image/blogImage.png" class="card-img-top" alt="...">
     <div class="card-body">
       <h3 class="card-title">Card title</h3>
       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
