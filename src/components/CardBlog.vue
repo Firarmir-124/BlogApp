@@ -14,7 +14,7 @@
           <p class="card-text m-0">Создатель:{{blog.user}} </p>
         </div>
         <div class="d-flex align-items-center justify-content-between">
-          <RouterLink class="btn btn-primary" to="blog-one/1">Подробнее..</RouterLink>
+          <RouterLink class="btn btn-primary" :to="`/blog-one/${blog.id}`">Подробнее..</RouterLink>
           <button @click="$store.commit('blog/removeBlog', blog.id)" type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>

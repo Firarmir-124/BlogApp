@@ -1,8 +1,13 @@
 export const blogModule = {
   state: () => ({
-    blogList: []
+    blogList: [],
+    blogId: null
   }),
-  getters: {},
+  getters: {
+    getBlogOne: (state) => (id) => {
+      return state.blogList.find((item) => item.id === id)
+    }
+  },
   mutations: {
     addBlog(state, blog) {
       state.blogList.push(blog)
