@@ -1,5 +1,11 @@
 <script lang="ts">
+import dayjs from 'dayjs'
 export default {
+  data() {
+    return {
+      dayjs
+    }
+  },
   methods: {
     remove() {
       this.$store.commit('blog/removeBlog', this.$route.params.id);
@@ -25,13 +31,13 @@ export default {
         <p class="card-text">{{blog.content}}</p>
         <div class="card" style="width: 18rem;">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{blog.user}}</li>
-            <li class="list-group-item">{{blog.createAt}}</li>
+            <li class="list-group-item">Создатель: {{blog.user}}</li>
+            <li class="list-group-item">Дата: {{ dayjs(blog.createAt).format('YYYY-MM-DD')}}</li>
           </ul>
         </div>
         <div class="btn-group mt-3" role="group" aria-label="Basic outlined example">
           <button @click="remove" type="button" class="btn btn-outline-primary">Удалить</button>
-          <RouterLink class="btn btn-outline-primary" to="/edit-blog/1">Редактировать</RouterLink>
+          <RouterLink class="btn btn-outline-primary" :to="`/edit-blog/${blog.id}`">Редактировать</RouterLink>
         </div>
       </div>
     </div>

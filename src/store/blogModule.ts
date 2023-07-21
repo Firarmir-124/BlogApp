@@ -1,7 +1,8 @@
 export const blogModule = {
   state: () => ({
     blogList: [],
-    blogId: null
+    isEdit: '',
+    idBlogOne: ''
   }),
   getters: {
     getBlogOne: (state) => (id) => {
@@ -11,6 +12,16 @@ export const blogModule = {
   mutations: {
     addBlog(state, blog) {
       state.blogList.push(blog)
+    },
+    setIdEdit(state, id) {
+      state.isEdit = id
+    },
+    setIdBlogOne: (state, id) => {
+      state.idBlogOne = id
+    },
+    editBlog: (state, blog) => {
+      const index = state.blogList.findIndex((item) => item.id === state.idBlogOne)
+      state.blogList[index] = blog
     },
     removeBlog(state, id) {
       const index = state.blogList.findIndex((item) => item.id === id)
