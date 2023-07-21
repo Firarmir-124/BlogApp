@@ -6,9 +6,7 @@ import CardBlog from "@/components/CardBlog.vue";
   <main>
     <h1 class="my-2">Блог</h1>
     <div class="row row-cols-3">
-      <div class="col">
-        <CardBlog/>
-      </div>
+      <CardBlog/>
     </div>
   </main>
 </template>

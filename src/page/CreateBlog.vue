@@ -1,27 +1,46 @@
-<script lang="ts">
-
-</script>
-
 <template>
   <h2 class="my-3">Создать блог</h2>
-  <form>
+  <form @submit.prevent @submit="createBlog">
     <div class="card p-2">
       <div class="form-group">
         <label class="mb-3" for="name">Название блога</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Введите название...">
+        <input v-model="blog.name" type="text" class="form-control" id="name" name="name" placeholder="Введите название..." required>
       </div>
       <div class="form-group my-3">
         <label class="mb-3" for="text">Информация</label>
-        <textarea class="form-control" id="text" name="text" rows="3" placeholder="Введите информацию о блоге..."></textarea>
+        <textarea v-model="blog.content" class="form-control" id="content" name="content" rows="3" placeholder="Введите информацию о блоге..." required></textarea>
       </div>
       <div class="form-group">
         <label class="mb-3" for="nameAuthor">Автор блога</label>
-        <input type="text" class="form-control" id="nameAuthor" name="nameAuthor" placeholder="Введите имя...">
+        <input v-model="blog.user" type="text" class="form-control" id="user" name="user" placeholder="Введите имя..." required>
       </div>
       <button type="submit" class="btn btn-primary mt-3 w-25">Создать</button>
     </div>
   </form>
 </template>
+
+<script lang="ts">
+export default {
+  data() {
+    return {
+      blog: {
+        id: '',
+        name: '',
+        content: '',
+        user: '',
+        createAt: new Date(),
+      }
+    }
+  },
+  methods: {
+    createBlog() {
+      this.blog.id = Date.now().toString();
+      this.$store.commit('blog/addBlog', this.blog);
+      this.$router.push('/');
+    }
+  }
+}
+</script>
 
 <style>
 
