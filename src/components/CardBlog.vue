@@ -15,7 +15,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-between">
           <RouterLink class="btn btn-primary" to="blog-one/1">Подробнее..</RouterLink>
-          <button type="button" class="btn btn-danger">Удалить</button>
+          <button @click="$store.commit('blog/removeBlog', blog.id)" type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
     </div>
