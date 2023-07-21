@@ -49,7 +49,7 @@ export default {
         <label class="mb-3" for="nameAuthor">Автор блога</label>
         <input v-model="blog.user" type="text" class="form-control" id="user" name="user" placeholder="Введите имя..." required>
       </div>
-      <button type="submit" class="btn btn-primary mt-3 w-25">Создать</button>
+      <button type="submit" class="btn btn-primary mt-3 w-25">{{$store.state.blog.isEdit === 'edit' ? 'Редактировать' : 'Создать'}}</button>
     </div>
   </form>
 </template>
