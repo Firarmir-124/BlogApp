@@ -37,6 +37,11 @@ export interface BlogModuleType {
   createLoading: boolean
 }
 
+interface UpdateBlogType {
+  id: string
+  update: BlogMutation
+}
+
 export const blogModule: Module<BlogModuleType, any> = {
   state: () => ({
     blogList: [],
@@ -50,22 +55,8 @@ export const blogModule: Module<BlogModuleType, any> = {
   }),
   getters: {},
   mutations: {
-    addBlog(state, blog) {
-      state.blogList.push(blog)
-    },
     setIdEdit(state, id) {
       state.isEdit = id
-    },
-    setIdBlogOne: (state, id) => {
-      state.idBlogOne = id
-    },
-    editBlog: (state, blog) => {
-      const index = state.blogList.findIndex((item) => item.id === state.idBlogOne)
-      state.blogList[index] = blog
-    },
-    removeBlog(state, id) {
-      const index = state.blogList.findIndex((item) => item.id === id)
-      state.blogList.splice(index, 1)
     }
   },
   actions: {
@@ -106,6 +97,25 @@ export const blogModule: Module<BlogModuleType, any> = {
       try {
         state.createAndEditLoading = true
         await axios.post('http://localhost:8000/blogs', formDate)
+      } finally {
+        state.createAndEditLoading = false
+      }
+    },
+    async updateBlog({ state }, id: UpdateBlogType) {
+      const formDate = new FormData()
+      const keys = Object.keys(id.update) as (keyof BlogMutation)[]
+
+      keys.forEach((item) => {
+        const value = id.update[item] as string
+
+        if (value !== '') {
+          formDate.append(item, value)
+        }
+      })
+
+      try {
+        await axios.put(`http://localhost:8000/blogs/${id.id}`, id.update)
+        state.createAndEditLoading = true
       } finally {
         state.createAndEditLoading = false
       }

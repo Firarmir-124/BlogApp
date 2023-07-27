@@ -9,11 +9,11 @@ export default {
   components: {Form},
   computed: {
     blog() {
-      this.$store.commit('blog/setIdBlogOne', this.$route.params.id);
-      return this.$store.getters['blog/getBlogOne'](this.$route.params.id);
+      return this.$store.state.blog.blogOne
     },
   },
   mounted() {
+    this.$store.dispatch('blog/getBlogOne', this.$route.params.id);
     this.$store.commit('blog/setIdEdit', 'edit');
   }
 }

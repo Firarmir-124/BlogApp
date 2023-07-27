@@ -61,7 +61,7 @@ export default {
                 </div>
               </div>
             </button>
-            <RouterLink class="btn btn-outline-primary" :to="`/edit-blog/${blog.blogOne.id}`">Редактировать</RouterLink>
+            <RouterLink class="btn btn-outline-primary" :to="`/edit-blog/${blog.blogOne._id}`">Редактировать</RouterLink>
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ export default {
         this.$store.dispatch('blog/createBlog', this.blog)
         this.$router.push('/');
       } else if (this.$store.state.blog.isEdit === 'edit') {
-        this.$store.commit('blog/editBlog', this.blog);
+        this.$store.dispatch('blog/updateBlog', {id: this.$route.params.id, update: this.blog})
         this.$router.push('/');
       }
     },
