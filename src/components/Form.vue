@@ -5,25 +5,35 @@ export default {
       blog: this.blogOne ? {
         ...this.blogOne
       } : {
-        id: '',
         name: '',
         content: '',
         user: '',
-        createAt: new Date(),
+        image:  null
       }
     }
   },
   methods: {
     createBlog() {
       if (this.$store.state.blog.isEdit === 'create') {
-        this.blog.id = Date.now().toString();
-        this.$store.commit('blog/addBlog', this.blog);
+        this.$store.dispatch('blog/createBlog', this.blog)
         this.$router.push('/');
       } else if (this.$store.state.blog.isEdit === 'edit') {
         this.$store.commit('blog/editBlog', this.blog);
         this.$router.push('/');
       }
     },
+    changeFile(e) {
+      const { files } = e.target;
+      this.blog.image = files && files[0] ? files[0] : null
+
+    }
+  },
+  computed: {
+    blogs() {
+      return {
+        loadingCreateEdit: this.$store.state.blog.createAndEditLoading
+      }
+    }
   },
   props: {
     blogOne: {
@@ -49,7 +59,20 @@ export default {
         <label class="mb-3" for="nameAuthor">Автор блога</label>
         <input v-model="blog.user" type="text" class="form-control" id="user" name="user" placeholder="Введите имя..." required>
       </div>
-      <button type="submit" class="btn btn-primary mt-3 w-25">{{$store.state.blog.isEdit === 'edit' ? 'Редактировать' : 'Создать'}}</button>
+      <div class="my-3">
+        <label for="formFile" class="form-label">Выбрать картинку</label>
+        <input class="form-control" type="file" id="formFile" @change="changeFile">
+      </div>
+      <button :disabled="blogs.loadingCreateEdit" type="submit" class="btn btn-primary mt-3 w-25">
+        <div v-if="!blogs.loadingCreateEdit">
+          {{$store.state.blog.isEdit === 'edit' ? 'Редактировать' : 'Создать'}}
+        </div>
+        <div v-else>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </button>
     </div>
   </form>
 </template>

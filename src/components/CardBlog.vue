@@ -1,5 +1,6 @@
 <script lang="ts">
 import dayjs from 'dayjs'
+import noImage from "@/assets/image/blogImage.png";
 export default {
   data() {
     return {
@@ -19,6 +20,13 @@ export default {
       console.log(id);
       await this.$store.dispatch('blog/removeBlog', id)
       await this.$store.dispatch('blog/getListBlog')
+    },
+    getImage(imageUrl: string | undefined) {
+      if (imageUrl) {
+        return `http://localhost:8000/images/${imageUrl}`
+      }
+
+      return noImage
     }
   }
 }
@@ -27,7 +35,7 @@ export default {
 <template>
   <div key="{{blog._id}}" class="col" v-for="blog in blogs.blogList" v-if="blogs.length !== 0">
     <div class="card">
-      <img src="../assets/image/blogImage.png" class="card-img-top" alt="...">
+      <img :src="getImage(blog.image)" class="card-img-top" alt="..." width="550" height="400">
       <div class="card-body">
         <h5 class="card-title">{{blog.name}}</h5>
         <p class="card-text">{{blog.content}}</p>

@@ -1,5 +1,6 @@
 <script lang="ts">
 import dayjs from 'dayjs'
+import noImage from '@/assets/image/blogImage.png'
 export default {
   data() {
     return {
@@ -10,6 +11,13 @@ export default {
     remove() {
       this.$store.dispatch('blog/removeBlog', this.$route.params.id);
       this.$router.push('/');
+    },
+    getImage(imageUrl: string | undefined) {
+      if (imageUrl) {
+        return `http://localhost:8000/images/${imageUrl}`
+      }
+
+      return noImage
     }
   },
   computed: {
@@ -32,7 +40,7 @@ export default {
   <div v-if="!blog.loadingOne">
     <div v-if="blog.blogOne !== null">
       <div class="card" style="width: 100%">
-        <img src="../assets/image/blogImage.png" class="card-img-top" alt="...">
+        <img :src="getImage(blog.blogOne.image)" class="card-img-top" alt="..." width="100%" height="1000">
         <div class="card-body">
           <h3 class="card-title">{{blog.blogOne.name}}</h3>
           <p class="card-text">{{blog.blogOne.content}}</p>

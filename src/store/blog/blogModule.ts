@@ -19,6 +19,13 @@ export interface BlogOneType {
   createAt: string
 }
 
+export interface BlogMutation {
+  name: string
+  content: string
+  user: string
+  image: string | null
+}
+
 export interface BlogModuleType {
   blogList: BlogListType[]
   blogOne: BlogOneType | null
@@ -27,6 +34,7 @@ export interface BlogModuleType {
   loading: boolean
   loadingOne: boolean
   removeLoading: boolean
+  createLoading: boolean
 }
 
 export const blogModule: Module<BlogModuleType, any> = {
@@ -37,7 +45,8 @@ export const blogModule: Module<BlogModuleType, any> = {
     idBlogOne: '',
     loading: false,
     loadingOne: false,
-    removeLoading: false
+    removeLoading: false,
+    createAndEditLoading: false
   }),
   getters: {},
   mutations: {
@@ -80,6 +89,25 @@ export const blogModule: Module<BlogModuleType, any> = {
         state.loading = true
       } finally {
         state.loading = false
+      }
+    },
+    async createBlog({ state }, blogMutation) {
+      const formDate = new FormData()
+      const keys = Object.keys(blogMutation) as (keyof BlogMutation)[]
+
+      keys.forEach((id) => {
+        const value = blogMutation[id] as string
+
+        if (value !== '') {
+          formDate.append(id, value)
+        }
+      })
+
+      try {
+        state.createAndEditLoading = true
+        await axios.post('http://localhost:8000/blogs', formDate)
+      } finally {
+        state.createAndEditLoading = false
       }
     },
     async removeBlog({ state }, id) {
