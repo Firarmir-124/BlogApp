@@ -13,12 +13,12 @@ export default {
     }
   },
   methods: {
-    createBlog() {
+    async createBlog() {
       if (this.$store.state.blog.isEdit === 'create') {
-        this.$store.dispatch('blog/createBlog', this.blog)
+        await this.$store.dispatch('blog/createBlog', this.blog)
         this.$router.push('/');
       } else if (this.$store.state.blog.isEdit === 'edit') {
-        this.$store.dispatch('blog/updateBlog', {id: this.$route.params.id, update: this.blog})
+        await this.$store.dispatch('blog/updateBlog', {id: this.$route.params.id, update: this.blog})
         this.$router.push('/');
       }
     },
@@ -45,6 +45,7 @@ export default {
 </script>
 
 <template>
+  {{blog.image}}
   <form @submit.prevent @submit="createBlog">
     <div class="card p-2">
       <div class="form-group">

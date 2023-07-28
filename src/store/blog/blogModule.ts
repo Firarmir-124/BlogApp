@@ -1,4 +1,3 @@
-import Module from 'vuex'
 import axios from 'axios'
 
 export interface BlogListType {
@@ -8,6 +7,14 @@ export interface BlogListType {
   user: string
   image: string | null
   createAt: string
+}
+
+export interface BlogsPagination {
+  blogs: BlogListType[]
+  count: number
+  page: number
+  perPage: number
+  pages: number
 }
 
 export interface BlogOneType {
@@ -27,7 +34,7 @@ export interface BlogMutation {
 }
 
 export interface BlogModuleType {
-  blogList: BlogListType[]
+  blogList: BlogsPagination
   blogOne: BlogOneType | null
   isEdit: string
   idBlogOne: string
@@ -42,9 +49,15 @@ interface UpdateBlogType {
   update: BlogMutation
 }
 
-export const blogModule: Module<BlogModuleType, any> = {
+export const blogModule = {
   state: () => ({
-    blogList: [],
+    blogList: {
+      blogs: [],
+      count: 11,
+      page: 1,
+      perPage: 10,
+      pages: 0
+    },
     blogOne: null,
     isEdit: '',
     idBlogOne: '',
@@ -57,9 +70,23 @@ export const blogModule: Module<BlogModuleType, any> = {
   mutations: {
     setIdEdit(state, id) {
       state.isEdit = id
+    },
+    setPagination: (state, count) => {
+      state.blogList.page = count
     }
   },
   actions: {
+    async getListBlog({ state }) {
+      try {
+        const response = await axios.get<BlogListType[]>(
+          `http://localhost:8000/blogs?page=${state.blogList.page}&perPage=${state.blogList.perPage}`
+        )
+        state.blogList = await response.data
+        state.loading = true
+      } finally {
+        state.loading = false
+      }
+    },
     async getBlogOne({ state }, id) {
       try {
         state.loadingOne = true
@@ -71,16 +98,7 @@ export const blogModule: Module<BlogModuleType, any> = {
       } finally {
         state.loadingOne = false
       }
-      return state.blogList.find((item) => item._id === id)
-    },
-    async getListBlog({ state }) {
-      try {
-        const response = await axios.get<BlogListType[]>('http://localhost:8000/blogs')
-        state.blogList = await response.data
-        state.loading = true
-      } finally {
-        state.loading = false
-      }
+      return state.blogList.blogs.find((item) => item._id === id)
     },
     async createBlog({ state }, blogMutation) {
       const formDate = new FormData()
@@ -114,7 +132,7 @@ export const blogModule: Module<BlogModuleType, any> = {
       })
 
       try {
-        await axios.put(`http://localhost:8000/blogs/${id.id}`, id.update)
+        await axios.put(`http://localhost:8000/blogs/${id.id}`, formDate)
         state.createAndEditLoading = true
       } finally {
         state.createAndEditLoading = false

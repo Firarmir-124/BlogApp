@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <div key="{{blog._id}}" class="col" v-for="blog in blogs.blogList" v-if="blogs.length !== 0">
+  <div key="{{blog._id}}" class="col" v-for="blog in blogs.blogList.blogs" v-if="blogs.length !== 0">
     <div class="card">
       <img :src="getImage(blog.image)" class="card-img-top" alt="..." width="550" height="400">
       <div class="card-body">
