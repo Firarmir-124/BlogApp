@@ -9,14 +9,6 @@ export interface BlogListType {
   createAt: string
 }
 
-export interface BlogsPagination {
-  blogs: BlogListType[]
-  count: number
-  page: number
-  perPage: number
-  pages: number
-}
-
 export interface BlogOneType {
   _id: string
   name: string
@@ -31,17 +23,6 @@ export interface BlogMutation {
   content: string
   user: string
   image: string | null
-}
-
-export interface BlogModuleType {
-  blogList: BlogsPagination
-  blogOne: BlogOneType | null
-  isEdit: string
-  idBlogOne: string
-  loading: boolean
-  loadingOne: boolean
-  removeLoading: boolean
-  createLoading: boolean
 }
 
 interface UpdateBlogType {
@@ -64,9 +45,21 @@ export const blogModule = {
     loading: false,
     loadingOne: false,
     removeLoading: false,
-    createAndEditLoading: false
+    createAndEditLoading: false,
+    listSearch: [],
+    listSearchLoading: false
   }),
-  getters: {},
+  getters: {
+    getSearchList: (state) => async (value: string) => {
+      try {
+        state.listSearchLoading = true
+        const response = await axios.get(`http://localhost:8000/blogs/search?value=${value}`)
+        return await response.data
+      } finally {
+        state.listSearchLoading = false
+      }
+    }
+  },
   mutations: {
     setIdEdit(state, id) {
       state.isEdit = id

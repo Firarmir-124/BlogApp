@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2" v-if="blog.blogList.pages !== 0">
+  <div class="mt-2" v-if="blog.blogList.pages">
     <Pagination :count-pages="blog.blogList.pages" :size-pages="5" />
   </div>
   <main>

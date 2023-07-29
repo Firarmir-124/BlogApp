@@ -38,6 +38,7 @@ export default {
   },
   watch: {
     async page(count) {
+      localStorage.setItem('page', count.toString())
       this.$store.commit('blog/setPagination', count);
       await this.$store.dispatch('blog/getListBlog');
     }
@@ -63,10 +64,10 @@ export default {
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <div class="d-flex" v-for="count in pagesSlice">
+      <div class="d-flex" v-for="count in countPages">
         <li :class="`page-item ${count === page ? 'active' : ''}`" @click="setPage(count)"><a class="page-link" href="#">{{count}}</a></li>
-        <div v-if="countPages > sizePages && pagesSlice.at(-1) === count">
-          <li :style="`display: ${page === countPages && 'none'};`" class="page-item">
+        <div v-if="countPages > sizePages && pagesSlice.at(-1) === count - 1">
+          <li :style="`display: ${page === countPages  && 'none'};`" class="page-item">
             <a class="page-link" href="#">...</a>
           </li>
         </div>
