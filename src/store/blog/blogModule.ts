@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axiosApi } from '@/axiosApi'
 
 export interface BlogListType {
   _id: string
@@ -53,7 +53,7 @@ export const blogModule = {
     getSearchList: (state) => async (value: string) => {
       try {
         state.listSearchLoading = true
-        const response = await axios.get(`http://localhost:8000/blogs/search?value=${value}`)
+        const response = await axiosApi.get(`/blogs/search?value=${value}`)
         return await response.data
       } finally {
         state.listSearchLoading = false
@@ -71,8 +71,8 @@ export const blogModule = {
   actions: {
     async getListBlog({ state }) {
       try {
-        const response = await axios.get<BlogListType[]>(
-          `http://localhost:8000/blogs?page=${state.blogList.page}&perPage=${state.blogList.perPage}`
+        const response = await axiosApi.get<BlogListType[]>(
+          `/blogs?page=${state.blogList.page}&perPage=${state.blogList.perPage}`
         )
         state.blogList = await response.data
         state.loading = true
@@ -83,7 +83,7 @@ export const blogModule = {
     async getBlogOne({ state }, id) {
       try {
         state.loadingOne = true
-        const response = await axios.get<BlogOneType>(`http://localhost:8000/blogs/${id}`)
+        const response = await axiosApi.get<BlogOneType>(`/blogs/${id}`)
         const jsn = (await response.data) as BlogOneType | null
         if (jsn !== null) {
           state.blogOne = jsn
@@ -107,7 +107,7 @@ export const blogModule = {
 
       try {
         state.createAndEditLoading = true
-        await axios.post('http://localhost:8000/blogs', formDate)
+        await axiosApi.post('/blogs', formDate)
       } finally {
         state.createAndEditLoading = false
       }
@@ -125,7 +125,7 @@ export const blogModule = {
       })
 
       try {
-        await axios.put(`http://localhost:8000/blogs/${id.id}`, formDate)
+        await axiosApi.put(`/blogs/${id.id}`, formDate)
         state.createAndEditLoading = true
       } finally {
         state.createAndEditLoading = false
@@ -133,7 +133,7 @@ export const blogModule = {
     },
     async removeBlog({ state }, id) {
       try {
-        await axios.delete(`http://localhost:8000/blogs/${id}`)
+        await axiosApi.delete(`/blogs/${id}`)
         state.removeLoading = true
       } finally {
         state.removeLoading = false

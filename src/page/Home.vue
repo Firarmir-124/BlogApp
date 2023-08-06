@@ -4,9 +4,9 @@
   </div>
   <main>
     <h1 class="my-2">Блог</h1>
-    <div v-if="blog.blogList.length === 0">
+    <div v-if="blog.blogList.blogs.length === 0">
       <div class="alert alert-primary" role="alert">
-        Блоги не загрузились !
+        Контент не загрузился
       </div>
     </div>
     <div class="row row-cols-3" v-else-if="!blog.loading">

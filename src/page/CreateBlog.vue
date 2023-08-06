@@ -7,6 +7,13 @@
 import Form from "@/components/Form.vue";
 export default {
   components: {Form},
+  computed: {
+    authState() {
+      return {
+        user: this.$store.state.auth.user
+      }
+    }
+  },
   mounted() {
     this.$store.commit('blog/setIdEdit', 'create');
   }

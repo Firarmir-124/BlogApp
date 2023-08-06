@@ -1,9 +1,20 @@
 <script lang="ts">
 import Search from '@/components/Search.vue'
+import HeaderAnonim from '@/components/HeaderAnonim.vue'
+import HeaderUser from '@/components/HeaderUser.vue';
 export default {
   components: {
-    Search
-  }
+    Search,
+    HeaderAnonim,
+    HeaderUser
+  },
+  computed: {
+    auth() {
+      return {
+        user: this.$store.state.auth.user,
+      }
+    }
+  },
 }
 </script>
 
@@ -15,11 +26,12 @@ export default {
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><RouterLink class="nav-link px-2 text-white" to="/">Блог</RouterLink></li>
         </ul>
-
         <Search/>
-
-        <div class="text-end">
-          <RouterLink to="/create-blog" class="btn btn-warning">Создать пост</RouterLink>
+        <div v-if="auth.user">
+          <HeaderUser/>
+        </div>
+        <div v-else>
+          <HeaderAnonim/>
         </div>
       </div>
     </div>
